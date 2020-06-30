@@ -35,7 +35,20 @@ const executeTransaction = async (address, privateKey, code) => {
   ]), { node: flowHost });
   return response2;
 };
+const executeScript = async code => {
+  const response = await sdk.send(await sdk.pipe(await sdk.build([
+    sdk.script(code),
+  ]), [
+    sdk.resolve([
+      sdk.resolveParams,
+      sdk.resolveAccounts,
+      sdk.resolveSignatures,
+    ]),
+  ]), { node: flowHost });
+  return response;
+};
 
 export {
   executeTransaction,
+  executeScript,
 };
