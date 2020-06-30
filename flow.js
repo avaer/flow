@@ -2,7 +2,7 @@ import sdk from './sdk.js';
 import t from './types.js';
 import SigningFunction from './signing-function.js';
 
-const createCredentials = (address, privateKey) => ({
+const makeCredentials = (address, privateKey) => ({
   address,
   signingFunction: SigningFunction.signingFunction(privateKey),
 });
@@ -53,7 +53,7 @@ const executeScript = async code => {
 };
 
 export {
-  createCredentials,
+  makeCredentials,
   executeTransaction,
   executeScript,
 };
