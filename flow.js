@@ -2,8 +2,12 @@ import sdk from './sdk.js';
 import t from './types.js';
 import SigningFunction from './signing-function.js';
 
-const executeTransaction = async (address, privateKey, code) => {
-  const sf = SigningFunction.signingFunction(privateKey);
+const createCredentials = (address, privateKey) => ({
+  address,
+  signingFunction: SigningFunction.signingFunction(privateKey),
+});
+const executeTransaction = async (creds, code) => {
+  const {address, signingFunction} = creds;
   const acctResponse = await sdk.send(await sdk.pipe(await sdk.build([
     sdk.getAccount(address),
   ]), [
@@ -14,9 +18,9 @@ const executeTransaction = async (address, privateKey, code) => {
   const seqNum = acctResponse.account.keys[0].sequenceNumber;
 
   const response = await sdk.send(await sdk.pipe(await sdk.build([
-    sdk.authorizations([sdk.authorization(address, sf, 0)]),
-    sdk.payer(sdk.authorization(address, sf, 0)),
-    sdk.proposer(sdk.authorization(address, sf, 0, seqNum)),
+    sdk.authorizations([sdk.authorization(address, signingFunction, 0)]),
+    sdk.payer(sdk.authorization(address, signingFunction, 0)),
+    sdk.proposer(sdk.authorization(address, signingFunction, 0, seqNum)),
     sdk.limit(100),
     sdk.transaction(code),
   ]), [
@@ -49,6 +53,7 @@ const executeScript = async code => {
 };
 
 export {
+  createCredentials,
   executeTransaction,
   executeScript,
 };
