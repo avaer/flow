@@ -1,8 +1,7 @@
 import sdk from './sdk.js';
 import t from './types.js';
 import SigningFunction from './signing-function.js';
-
-const flowHost = 'http://contracts.exokit.org:8080';
+import {flowHost} from './constants.js';
 
 const makeCredentials = (address, privateKey) => ({
   address,
