@@ -1,7 +1,7 @@
 import sdk from './sdk.js';
 import t from './types.js';
 import SigningFunction from './signing-function.js';
-import {flowHost} from './constants.js';
+import {contractsHost, flowHost} from './constants.js';
 
 const makeCredentials = (address, privateKey) => ({
   address,
@@ -54,6 +54,8 @@ const executeScript = async code => {
 };
 
 export {
+  contractsHost,
+  flowHost,
   makeCredentials,
   executeTransaction,
   executeScript,
